@@ -1,0 +1,11 @@
+{
+  "name": "express-ts-starter",
+  "version": "1.0.0",
+  "description": "Starter project app for express typescript",
+  "main": "src/main.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Muhammad Taufiqurrahman",
+  "license": "ISC"
+}
