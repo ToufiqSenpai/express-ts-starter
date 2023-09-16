@@ -1,6 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 import logger from "./logger";
 
+/**
+ * Instance of PrismaClient
+ */
 const database = new PrismaClient({
   log: [
     // {
