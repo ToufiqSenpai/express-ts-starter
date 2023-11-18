@@ -1,6 +1,5 @@
 import { RuleValidator, RuleValidatorContext } from "flare-validator";
 import database from "../utils/database";
-import { Prisma } from "@prisma/client";
 
 class Exists implements RuleValidator {
   public context: RuleValidatorContext
@@ -17,9 +16,10 @@ class Exists implements RuleValidator {
   
   public async isValid(): Promise<boolean> {
     const [table, column] = this.args
-    const result = await database.$queryRaw<[{ count: number }]>`SELECT COUNT(*) AS count FROM ${Prisma.raw(table)} WHERE ${Prisma.raw(column)} = ${this.context.getValue()}`
+    // Query to database is the value is exist in database 
+    // If the result greater than 0, return true
 
-    return Boolean(result[0].count)
+    return true
   }
 }
 

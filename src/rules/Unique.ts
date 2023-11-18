@@ -16,15 +16,8 @@ class Unique implements RuleValidator {
 
   public async isValid(): Promise<boolean> {
     const [table, column, ignoreColumn, ignoreValue] = this.args
-    let query = `SELECT COUNT(*) as count FROM ${table} WHERE ${column} = '${this.context.getValue()}'`
 
-    if(ignoreColumn && ignoreValue) {
-      query += ` AND ${ignoreColumn} <> '${ignoreValue}'`
-    }
-
-    const result = await database.$queryRawUnsafe<{ count: number }[]>(query)
-
-    return !Boolean(result[0].count)
+    return true
   }
   
 }

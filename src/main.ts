@@ -23,7 +23,10 @@ app.use('/', homeRouter)
 app.use(errorHandling)
 
 if(process.env.NODE_ENV !== 'test') {
-  app.listen(PORT, () => logger.info(`Listening server on http://localhost:${PORT}`))
+  app.listen(PORT, () => logger.info(`Listening server on http://localhost:${PORT}`)).on('error', error => {
+    logger.error(`Error: ${error.name}, message: ${error.message}`)
+    console.log(error.stack)
+  })
 }
 
 export default app

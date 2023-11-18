@@ -18,7 +18,7 @@
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "express": "^4.18.2",
-    "flare-validator": "^1.2.11",
+    "flare-validator": "^1.4.0",
     "jsonwebtoken": "^9.0.1",
     "multer": "^1.4.5-lts.1",
     "winston": "^3.9.0"
@@ -39,7 +39,6 @@
     "@types/supertest": "^2.0.12",
     "babel-jest": "^29.6.0",
     "jest": "^29.6.0",
-    "prisma": "^5.0.0",
     "supertest": "^6.3.3",
     "ts-jest": "^29.1.1"
   }
