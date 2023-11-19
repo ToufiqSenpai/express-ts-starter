@@ -1,5 +1,5 @@
 import { RuleValidator, RuleValidatorContext } from "flare-validator";
-import database from "../utils/database";
+import { model } from "mongoose";
 
 class Unique implements RuleValidator {
   public context: RuleValidatorContext
@@ -15,9 +15,9 @@ class Unique implements RuleValidator {
   }
 
   public async isValid(): Promise<boolean> {
-    const [table, column, ignoreColumn, ignoreValue] = this.args
+    const [modelName, prop, ignoreValue, ignoreProp] = this.args
 
-    return true
+    return !Boolean(await model(modelName).findOne({ [prop]: this.context.getValue() }))
   }
   
 }

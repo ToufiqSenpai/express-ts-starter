@@ -1,5 +1,5 @@
 import { RuleValidator, RuleValidatorContext } from "flare-validator";
-import database from "../utils/database";
+import { model } from 'mongoose'
 
 class Exists implements RuleValidator {
   public context: RuleValidatorContext
@@ -15,11 +15,9 @@ class Exists implements RuleValidator {
   }
   
   public async isValid(): Promise<boolean> {
-    const [table, column] = this.args
-    // Query to database is the value is exist in database 
-    // If the result greater than 0, return true
+    const [modelName, prop] = this.args
 
-    return true
+    return Boolean(await model(modelName).findOne({ [prop]: this.context.getValue() }))
   }
 }
 

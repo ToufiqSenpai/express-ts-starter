@@ -4,10 +4,14 @@ import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import homeRouter from './routes/home-route'
 import errorHandling from './middlewares/errorHandling'
+import authRoute from './routes/auth-route'
+import database from './utils/database'
 
 const PORT = process.env.PORT || 8080
 
 const app = express()
+
+database()
 
 app.use(cors())
 
@@ -18,6 +22,8 @@ app.use(express.json({ type: 'application/json' }))
 app.use(express.static('public'))
 
 app.use('/', homeRouter)
+
+app.use('/api/v1/auth', authRoute)
 
 // Error handling middleware
 app.use(errorHandling)

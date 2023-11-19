@@ -1,12 +1,15 @@
 import { Validator } from "flare-validator";
-import Unique from "../rules/Unique";
-import Exists from "../rules/Exists";
+import { RulesProp } from "flare-validator/dist/cjs/types/ValidatorType";
 import BcryptCompare from "../rules/BcryptCompare";
+import Exists from "../rules/Exists";
+import Unique from "../rules/Unique";
 
-async function validator(data: any, rules: Record<string, string>, messages?: Record<string, string>, attributes?: Record<string, string>) {
-  return await Validator.validate(data, rules, messages, rules, {
-    unique: Unique,
-    exists: Exists,
-    bcrypt_compare: BcryptCompare
-  })
+Validator.setRuleValidator('unique', Unique)
+Validator.setRuleValidator('exists', Exists)
+Validator.setRuleValidator('bcrypt_compare', BcryptCompare)
+
+async function validator(data: any, rules: Record<string, RulesProp>, messages?: Record<string, string>, attributes?: Record<string, string>) {
+  return await Validator.validate(data, rules, messages, attributes)
 }
+
+export default validator
