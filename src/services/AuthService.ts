@@ -10,14 +10,12 @@ namespace AuthService {
       name: 'required|min_length:1|max_length:99',
       email: 'required|min_length:1|max_length:99|email|unique:User,email',
       password: 'required|min_length:1|max_length:99'
-    }, {}, {
+    }, { email: ':attribute is not valid.' }, {
       name: 'Name',
       email: 'Email',
       password: 'Password'
     })
     validation.throwIfFailed()
-
-    console.log(validation.violation.getMessageList())
 
     data.password = bcrypt.hashSync(data.password, bcrypt.genSaltSync())
 

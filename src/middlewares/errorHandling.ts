@@ -9,7 +9,7 @@ function errorHandling(error: Error, req: Request, res: Response, next: NextFunc
     return res.status(error.getHttpStatus()).json(responseStatus(error.getHttpStatus(), error.message))
   } else if(error instanceof ValidationException) {
     return res.status(400).json({ ...responseStatus(400, 'Bad Request'), errors: error.violation.getMessageList() })
-  } else  {
+  } else {
     return res.status(500).json({
       status: HttpStatus.INTERNAL_SERVER_ERROR,
       error: error.name,

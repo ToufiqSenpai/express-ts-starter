@@ -11,7 +11,7 @@ class Unique implements RuleValidator {
   }
 
   public message(): string {
-    return ':attribute is already exist.'
+    return `${this.context.getAttribute()} is already exist.`
   }
 
   public async isValid(): Promise<boolean> {
