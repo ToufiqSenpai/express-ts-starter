@@ -12,6 +12,15 @@ namespace AuthController {
       return next(error)
     }
   }
+
+  export async function login(req: Request, res: Response, next: NextFunction) {
+    try {
+      const token = await AuthService.login(req.body)
+      return res.status(HttpStatus.OK).json({ token })
+    } catch (error) {
+      return next(error)
+    }
+  }
 }
 
 export default AuthController

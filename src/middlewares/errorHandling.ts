@@ -5,6 +5,7 @@ import responseStatus from "../utils/responseStatus";
 import { ValidationException } from "flare-validator";
 
 function errorHandling(error: Error, req: Request, res: Response, next: NextFunction): Response {
+  console.log(error)
   if(error instanceof HttpException) {
     return res.status(error.getHttpStatus()).json(responseStatus(error.getHttpStatus(), error.message))
   } else if(error instanceof ValidationException) {

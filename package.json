@@ -1,5 +1,5 @@
 {
-  "name": "to-do-api",
+  "name": "todo-api",
   "version": "1.0.0",
   "description": "Starter project app for express typescript",
   "main": "src/main.ts",
@@ -17,6 +17,7 @@
     "bcrypt": "^5.1.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "flare-validator": "^1.4.1",
     "jsonwebtoken": "^9.0.1",
