@@ -1,7 +1,7 @@
-import { NextFunction, Request, Response } from "express"
+import {NextFunction, Request, Response} from "express"
 import * as jwt from 'jsonwebtoken'
 import HttpStatus from "../enums/HttpStatus"
-import BodyBuilder from "../utils/BodyBuilder"
+import responseStatus from "../utils/responseStatus";
 
 declare global {
   namespace Express {
@@ -37,9 +37,7 @@ async function autheticateUser(req: Request, res: Response, next: NextFunction) 
 
     next()
   } catch (error) {
-    res.status(HttpStatus.UNAUTHORIZED).json(
-      new BodyBuilder(HttpStatus.UNAUTHORIZED, (error as Error).message)
-    )
+    return res.status(401).json(responseStatus(HttpStatus.UNAUTHORIZED))
   }
 }
 
