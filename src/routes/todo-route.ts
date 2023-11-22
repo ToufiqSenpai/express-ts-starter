@@ -1,5 +1,5 @@
-import {Router} from "express";
-import Todo from "../models/Todo";
+import { Router } from "express";
+import Todo, { ITodo } from "../models/Todo";
 import responseStatus from "../utils/responseStatus";
 import HttpStatus from "../enums/HttpStatus";
 
@@ -7,7 +7,7 @@ declare global {
   namespace Express {
     interface Request {
       // @ts-ignore
-      todo?: Todo
+      todo?: ITodo
     }
   }
 }

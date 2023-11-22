@@ -1,4 +1,4 @@
-import Todo from "../models/Todo";
+import Todo, {ITodo} from "../models/Todo";
 import HttpException from "../exceptions/HttpException";
 import HttpStatus from "../enums/HttpStatus";
 
@@ -16,12 +16,15 @@ namespace TodoService {
         }
     }
 
-    export async function insertTask(todoID: string, name: string) {
-        const todo = await Todo.findById(todoID)
-        todo.tasks.push({ name, status: 'UNFINISHED' })
+    export async function insertTask(todo: ITodo, name: string) {
+        todo.tasks.push({ name, status: "UNFINISHED" })
         await todo.save()
 
         return todo.tasks
+    }
+
+    export async function renameTask(todo: ITodo, name: string) {
+
     }
 }
 

@@ -1,19 +1,18 @@
 import Todo from "../../../src/models/Todo";
 import TodoService from "../../../src/services/TodoService";
 
-Todo.prototype.save = jest.fn()
-
 describe('test insertTodo', () => {
-  Todo.findById = jest.fn().mockReturnValue({
-    tasks: [],
-    async save() {}
-  })
-
   test('success inserting', async () => {
-    const tasks = await TodoService.insertTask('7349', 'Menyapu Halaman')
+    Todo.prototype.save = jest.fn()
 
-    expect(tasks[0].name).toEqual('Menyapu Halaman')
+    const todo = new Todo({
+      createdAt: new Date()
+    })
+
+    const tasks = await TodoService.insertTask(todo, 'Menyapu Halaman')
+
     expect(tasks[0].status).toEqual('UNFINISHED')
+    expect(tasks[0].name).toEqual('Menyapu Halaman')
   })
 })
 
