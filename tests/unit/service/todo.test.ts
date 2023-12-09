@@ -1,26 +1,48 @@
-import Todo from "../../../src/models/Todo";
+import Todo, {ITodo} from "../../../src/models/Todo";
 import TodoService from "../../../src/services/TodoService";
+import {ValidationException} from "flare-validator";
 
-describe('test insertTodo', () => {
-  test('success inserting', async () => {
-    Todo.prototype.save = jest.fn()
+describe('test save', () => {
+  let ISODate: string
 
-    const todo = new Todo({
-      createdAt: new Date()
-    })
+  beforeEach(() => {
+    ISODate = (new Date()).toISOString()
+  })
 
-    const tasks = await TodoService.insertTask(todo, 'Menyapu Halaman')
+  test('success creating', async () => {
+    const todo = await TodoService.save(ISODate)
 
-    expect(tasks[0].status).toEqual('UNFINISHED')
-    expect(tasks[0].name).toEqual('Menyapu Halaman')
+    expect(todo.createdAt.toISOString()).toEqual(ISODate)
+  })
+
+  test('failed creating', async () => {
+    await expect(async () => await TodoService.save(''))
+      .rejects.toThrow(ValidationException)
   })
 })
 
-describe('test createTodo', () => {
-  test('success creating', async () => {
-    const ISODate = (new Date()).toISOString()
-    const todo = await TodoService.createTodo(ISODate)
+describe('test getTodos', () => {
+  beforeEach(() => {
+    Todo.find = jest.fn().mockReturnValue([{
+      createdAt: new Date(),
+      tasks: [
+        {
+          name: 'Menyapu Halaman',
+          status: 'FINISHED'
+        },
+        {
+          name: 'Membaca',
+          status: 'UNFINISHED'
+        }
+      ]
+    }])
+  })
 
-    expect(todo.createdAt.toISOString()).toEqual(ISODate)
+  test('success get todos', async () => {
+    const todos = await TodoService.getTodos()
+
+    todos.forEach(todo => {
+      expect(todo).toBeDefined()
+    })
   })
 })

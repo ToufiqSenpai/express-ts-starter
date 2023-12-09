@@ -2,6 +2,9 @@ import {NextFunction, Request, Response} from "express"
 import * as jwt from 'jsonwebtoken'
 import HttpStatus from "../enums/HttpStatus"
 import responseStatus from "../utils/responseStatus";
+import env from 'dotenv'
+
+env.config()
 
 declare global {
   namespace Express {

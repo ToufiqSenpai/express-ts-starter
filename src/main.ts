@@ -6,6 +6,8 @@ import homeRouter from './routes/home-route'
 import errorHandling from './middlewares/errorHandling'
 import authRoute from './routes/auth-route'
 import database from './utils/database'
+import authenticateUser from "./middlewares/authenticateUser";
+import todoRoute from "./routes/todo-route";
 
 const PORT = process.env.PORT || 8080
 
@@ -21,9 +23,11 @@ app.use(express.json({ type: 'application/json' }))
 
 app.use(express.static('public'))
 
-app.use('/', homeRouter)
-
 app.use('/api/v1/auth', authRoute)
+
+app.use(authenticateUser)
+
+app.use('/api/v1/todos', todoRoute)
 
 // Error handling middleware
 app.use(errorHandling)

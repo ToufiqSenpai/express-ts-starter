@@ -1,31 +1,31 @@
 import Todo, {ITodo} from "../models/Todo";
 import HttpException from "../exceptions/HttpException";
 import HttpStatus from "../enums/HttpStatus";
+import validator from "../utils/validator";
+import {RuleValidator} from "flare-validator";
+import ISODate from "../rules/ISODate";
 
 namespace TodoService {
-    export async function createTodo(ISODate: string) {
-        const isISODate = Boolean(Date.parse(ISODate))
+  export async function getTodos(): Promise<ITodo[]> {
+    return Todo.find()
+  }
 
-        if(isISODate) {
-            const todo = new Todo({ createdAt: ISODate })
-            await todo.save()
+  export async function save(date: string) {
+    const validation = await validator({ date }, {
+      date: ['required', 'min_length:1', 'max_length:99', new ISODate()]
+    })
+    validation.throwIfFailed()
 
-            return todo
-        } else {
-            throw new HttpException(HttpStatus.BAD_REQUEST, 'ISO date is not valid.')
-        }
-    }
+    const todo = new Todo({ createdAt: date })
+    await todo.save()
 
-    export async function insertTask(todo: ITodo, name: string) {
-        todo.tasks.push({ name, status: "UNFINISHED" })
-        await todo.save()
+    return todo
+  }
 
-        return todo.tasks
-    }
-
-    export async function renameTask(todo: ITodo, name: string) {
-
-    }
+  export async function renameTask(todo: ITodo, name: string) {
+    // await validateName(name)
+    // todo.tasks.find(task => task._id) ==
+  }
 }
 
 export default TodoService

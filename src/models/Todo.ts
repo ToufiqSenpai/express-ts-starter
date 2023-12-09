@@ -2,6 +2,7 @@ import {model, Schema, Document} from "mongoose";
 
 export interface ITodo extends Document {
     tasks: {
+        _id?: string,
         name: string,
         status: 'FINISHED' | 'UNFINISHED'
     }[]
@@ -17,7 +18,7 @@ const todoSchema = new Schema<ITodo>({
         }
     }, { timestamps: true })],
     createdAt: Date
-})
+}, { timestamp: true })
 
 const Todo = model('Todo', todoSchema)
 
