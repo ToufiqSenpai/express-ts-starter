@@ -18,7 +18,7 @@ const todoSchema = new Schema<ITodo>({
         }
     }, { timestamps: true })],
     createdAt: Date
-}, { timestamp: true })
+}, { timestamps: true })
 
 const Todo = model('Todo', todoSchema)
 
