@@ -15,7 +15,7 @@ class Unique implements RuleValidator {
   }
 
   public async isValid(): Promise<boolean> {
-    const [modelName, prop, ignoreValue, ignoreProp] = this.args
+    const [modelName, prop] = this.args
 
     return !Boolean(await model(modelName).findOne({ [prop]: this.context.getValue() }))
   }

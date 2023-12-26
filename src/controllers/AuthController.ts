@@ -16,7 +16,7 @@ namespace AuthController {
       name: 'required|min_length:1|max_length:99',
       email: 'required|min_length:1|max_length:99|email|unique:User,email',
       password: 'required|min_length:1|max_length:99'
-    }, { email: ':attribute is not valid.' }, {
+    }, { email: ':attribute is not valid.', required: 'Required.' }, {
       name: 'Name',
       email: 'Email',
       password: 'Password'

@@ -1,10 +1,20 @@
-import { Schema, model } from "mongoose"
+import { ObjectId, Schema, model, Document } from "mongoose"
 import * as bcrypt from 'bcrypt'
 
-const userSchema = new Schema({
+export interface IUser extends Document {
+  _id: ObjectId
+  name: string
+  email: string
+  password: string
+  profilePicture: string
+  comparePassword(password: string): boolean
+}
+
+const userSchema = new Schema<IUser>({
   name: String,
   email: String,
-  password: String
+  password: String,
+  profilePicture: String
 }, {
   timestamps: true,
   methods: {

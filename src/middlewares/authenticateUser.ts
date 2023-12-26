@@ -3,6 +3,7 @@ import * as jwt from 'jsonwebtoken'
 import HttpStatus from "../enums/HttpStatus"
 import responseStatus from "../utils/responseStatus";
 import env from 'dotenv'
+import User, { IUser } from "../models/User";
 
 env.config()
 
@@ -12,33 +13,28 @@ declare global {
       /**
        * Parsed JWT token from Auth Bearer
        */
-      token?: { id: number }
+      user?: IUser
     }
   }
 }
 
 async function autheticateUser(req: Request, res: Response, next: NextFunction) {
   const bearerToken = req.headers.authorization
-  const cookieToken = req.cookies.token
 
   try {
-    let jwtToken: string
-
     if(bearerToken) {
       const [tokenType, token] = bearerToken.split(' ')
-
       if(!tokenType && tokenType != 'Bearer') throw new Error('Invalid token type.')
-      jwtToken = token
-    } else if(cookieToken) {
-      jwtToken = cookieToken
+
+      const parsedToken = jwt.verify(token, process.env.TOKEN_SECRET || '') as any
+      const user = await User.findById(parsedToken.id)
+      if(!user) throw new Error('User not found.')
+
+      req.user = user
+      next()
     } else {
       throw new Error('Unauthorized.')
     }
-
-    const parsedToken = jwt.verify(jwtToken, process.env.TOKEN_SECRET || '') as any
-    req.token = { id: parsedToken.id }
-
-    next()
   } catch (error) {
     return res.status(401).json(responseStatus(HttpStatus.UNAUTHORIZED))
   }

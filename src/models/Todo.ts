@@ -1,23 +1,26 @@
-import {model, Schema, Document} from "mongoose";
+import { model, Schema, Document, Model, Types } from "mongoose";
 
-export interface ITodo extends Document {
-    tasks: {
-        _id?: string,
-        name: string,
-        status: 'FINISHED' | 'UNFINISHED'
-    }[]
-    createdAt: Date
+export interface ITask {
+  _id?: Types.ObjectId
+  name: string
+  isFinished: boolean
 }
 
+export interface ITodo extends Document {
+  tasks: ITask[]
+  createdAt: Date
+  userId: string
+}
+
+// <ITodo, Model<ITodo, {}, { tasks: Types.DocumentArray<ITask> }>>
+
 const todoSchema = new Schema<ITodo>({
-    tasks: [new Schema({
-        name: String,
-        status: {
-            type: String,
-            enums: ['FINISHED', 'UNFINISHED']
-        }
-    }, { timestamps: true })],
-    createdAt: Date
+  tasks: [new Schema({
+    name: String,
+    isFinished: Boolean
+  }, { timestamps: true })],
+  createdAt: Date,
+  userId: String
 }, { timestamps: true })
 
 const Todo = model('Todo', todoSchema)

@@ -2,11 +2,10 @@ FROM node:latest
 
 WORKDIR /app
 
-COPY dist/* .
-COPY package.json .
+COPY . .
 
 RUN npm install
 
-EXPOSE 8080
+RUN npm run build
 
-CMD [ "node", "main.js" ]
+CMD [ "node", "dist/main.js" ]

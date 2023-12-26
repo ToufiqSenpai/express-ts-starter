@@ -2,27 +2,31 @@ import express from 'express'
 import logger from './utils/logger'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
-import homeRouter from './routes/home-route'
 import errorHandling from './middlewares/errorHandling'
 import authRoute from './routes/auth-route'
 import database from './utils/database'
 import authenticateUser from "./middlewares/authenticateUser";
 import todoRoute from "./routes/todo-route";
 import userRoute from "./routes/user-route";
+import env from 'dotenv'
 
-const PORT = process.env.PORT || 8080
+env.config()
+
+const PORT = process.env.APP_PORT || 8080
 
 const app = express()
 
 database()
 
-app.use(cors())
+app.use(cors({ origin: process.env.CORS_ORIGIN, credentials: true }))
 
 app.use(cookieParser())
 
+app.use(express.raw({ type: 'image/*' }))
+
 app.use(express.json({ type: 'application/json' }))
 
-app.use(express.static('public'))
+app.use('/static', express.static('public'))
 
 app.use('/api/v1/auth', authRoute)
 
